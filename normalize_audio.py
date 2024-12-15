@@ -17,12 +17,12 @@ class AudioNormalizer:
             normalized_audio.export(output_path, format="wav")
 
             if self.verbose:
-                logging.info(f"Normalized and saved: {output_path}")
+                logging.debug(f"Normalized and saved: {output_path}")
 
             # Perform cleanup: Remove the original file after processing
             os.remove(input_path)
             if self.verbose:
-                logging.info(f"Removed original file: {input_path}")
+                logging.debug(f"Removed original file: {input_path}")
         except Exception as e:
             logging.error(f"Error processing {input_path}: {e}")
 
