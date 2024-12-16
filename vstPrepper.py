@@ -35,6 +35,7 @@ if __name__ == "__main__":
     output_directory = args.output_directory
     os.makedirs(output_directory, exist_ok=True)
 
+    """Control threading with max_workers"""        
     normalizer = AudioNormalizer(max_workers=4, verbose=VERBOSE)
 
     logging.debug("Normalizer init")
@@ -42,7 +43,7 @@ if __name__ == "__main__":
     # Overriding 512 hop_length for 256. Higher precision, less efficient
     #transient_detector = TransientDetector(hop_length=256, verbose=VERBOSE)
 
-    transient_detector = TransientDetector(hop_length=512, verbose=VERBOSE)
+    transient_detector = TransientDetector(verbose=VERBOSE)
 
     logging.debug("TransientDetector init")
 
