@@ -8,12 +8,16 @@ class AudioProcessor:
         self.normalizer = normalizer
         self.transient_detector = transient_detector
         self.verbose = verbose
+        self.sample_rate = None  
 
     def process_audio_file(self, audio_path, output_dir):
         audio, sr = AudioManager.load_audio(audio_path)
 
         if audio is None:
             return
+  
+        # Store the sample rate for future reference
+        self.sample_rate = sr
 
         # Extract the file name without extension to create the output directory
         # audio_file_1.wav -> audio_file_1/
@@ -22,7 +26,9 @@ class AudioProcessor:
         os.makedirs(output_file_dir, exist_ok=True)
 
         logging.info("AudioProcessor::process_audio_file(): Detecting transients")
-        transients = self.transient_detector.detect_transients(audio, sr)
+
+        #256 creates too much sensitivity for peak deteaction 
+        transients = self.transient_detector.detect_transients(audio, sr) 
 
         # Save the clips in the created directory
         logging.info("AudioProcessor::process_audio_file(): Processing transients")
@@ -35,3 +41,13 @@ class AudioProcessor:
                 logging.debug(f"Processing {audio_file}...")
 
             self.process_audio_file(audio_file, output_dir)
+
+    def get_sample_rate(self):
+        """
+        Returns the sample rate of the current audio being processed.
+
+        Returns:
+            int: The sample rate (in Hz) of the currently processed audio file. i.e 44100, 48000,
+            etc
+        """
+        return self.sample_rate
