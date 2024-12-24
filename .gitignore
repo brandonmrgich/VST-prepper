@@ -4,3 +4,5 @@
 output*
 sessions
 venv
+*.wav
+*.mp3
